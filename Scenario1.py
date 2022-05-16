@@ -5,13 +5,16 @@ import sys
 
 
 def main():
-    print("File name: ", sys.argv[0])
-    print("Your CLM command is ", sys.argv[1])
+    
     # Creating Q table initialised to 0
     Q_s_a = np.zeros((13*13, 4))
+    isStochastic = None
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "-stochastic":
+            isStochastic = True
 
     # Create FourRooms Object
-    fourRoomsObj = FourRooms('simple')
+    fourRoomsObj = FourRooms('simple', isStochastic)
     actSeq = [FourRooms.UP,FourRooms.RIGHT, FourRooms.DOWN, FourRooms.LEFT]
 
     # Hyper-parameters

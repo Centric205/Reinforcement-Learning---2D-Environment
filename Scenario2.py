@@ -1,15 +1,23 @@
 from FourRooms import FourRooms
 import numpy as np
 from Q_learning import *
-
+import sys
 
 def main():
     # Create FourRooms Object
     Q_s_a = np.zeros((13 * 13, 4))
-    fourRoomsObj = FourRooms('multi')
+    
+    # For the CLM argument
+    isStochastic = None
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "-stochastic":
+            isStochastic = True
+
+
+    fourRoomsObj = FourRooms('multi', isStochastic)
     actSeq = [FourRooms.UP,FourRooms.RIGHT, FourRooms.DOWN, FourRooms.LEFT]
 
-
+    # Hyper-parameters
     epsilon = 0.1
     discount_factor = 0.6
     learning_rate = 0.1
@@ -37,11 +45,9 @@ def main():
             TP = rewards(cell_type) + (discount_factor * nextmax) - old_q_value
             newValue = old_q_value + (learning_rate * TP)
             Q_s_a[state, action] = newValue
-           # isTerminal = False
-           # print(i)
+           
             state = newstate
-           # if numpack == 0:
-           #     isTerminal = True
+           
 
     print(Q_s_a)
     print("Training finished on epoch: ", i)      
